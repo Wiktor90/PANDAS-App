@@ -2,29 +2,8 @@ import os
 import pandas as pd
 import numpy as np
 
-path = 'C:\\Users\\PL9891\\Desktop\\Fleet\\FUEL_FILES_TO_TRANSFORM\\GB_temp_save\\'
-convert_file_path= 'C:\\Users\\PL9891\\Desktop\\Fleet\\FUEL_FILES_TO_TRANSFORM\\RTI\\'
-
-#RETURN LIST: [PATH, FILE NAME] (.xlsx in DIR)
-def list_all_files(path):
-    files = []
-    # r=root, d=directories, f = files
-    for r, d, f in os.walk(path):
-        for file in f:
-            if '.xlsx' in file:
-                tuple_row = (r,file)
-                files.append(tuple_row)
-
-    return files
-
-#SAVING NEW EXCLE FILE (corrected)
-def save_excel(path, filename, dataframe):
-    excelWriter = pd.ExcelWriter(path + filename)
-    dataframe.to_excel(excelWriter, index=False)
-    excelWriter.save()
-
 #ODO correction
-def odometers(path, filename):
+def odometers_gb(path="", filename=""):
     #dawnload / cleam / prepare df from dir
     df = pd.read_excel(os.path.join(path,filename), skiprows=6)
     df.loc[:,"ODOMETER_FW"] = df.loc[:,"ODOMETER_FW"].fillna(0).astype('int')
@@ -57,11 +36,9 @@ def odometers(path, filename):
             df_corrected = df_corrected.append(temp_df)
 
     df_corrected.index.name = "VEHICLE_ID_FW"
-    #saving corrected df to excel in corrected_file_path dir. Name of corrected file
-    corected_file = 'RTI_'+ filename
-    save_excel(convert_file_path, corected_file, df_corrected)
+    return df_corrected
 
-directory = list_all_files(path)
-for i in directory:
-    odometers(i[0],i[1])
-    print(i[1],' - formating COMPLETE')
+if __name__ == '__main__':
+    odometers_gb()
+
+
