@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 
-path = r'C:\Users\PL9891\Desktop\Fleet\FUEL_FILES_TO_TRANSFORM\GB_temp_save'
+path = 'C:\\Users\\PL9891\\Desktop\\Fleet\\FUEL_FILES_TO_TRANSFORM\\GB_temp_save\\'
 convert_file_path= 'C:\\Users\\PL9891\\Desktop\\Fleet\\FUEL_FILES_TO_TRANSFORM\\RTI\\'
 
 #RETURN LIST: [PATH, FILE NAME] (.xlsx in DIR)
@@ -23,9 +23,10 @@ def save_excel(path, filename, dataframe):
     dataframe.to_excel(excelWriter, index=False)
     excelWriter.save()
 
+#ODO correction
 def odometers(path, filename):
     #dawnload / cleam / prepare df from dir
-    df = pd.read_excel(path, skiprows=6)
+    df = pd.read_excel(os.path.join(path,filename), skiprows=6)
     df.loc[:,"ODOMETER_FW"] = df.loc[:,"ODOMETER_FW"].fillna(0).astype('int')
     df.dropna(inplace = True)
     df.sort_values(by=['VEHICLE_ID_FW','TRANSACTION_DATE_FW','TRANSACTION_TIME_FW'], ascending=[True,False,False],inplace=True)
@@ -49,7 +50,7 @@ def odometers(path, filename):
                 if odo[j] - odo[j+1] > 9999 and odo[j+1] != 0:
                     odo[j+1] = 0
                 
-            temp_df["ODOMETER_FW"] = odo
+            temp_df.loc[:,"ODOMETER_FW"] = odo #temp_df["ODOMETER_FW"] = odo
             df_corrected = df_corrected.append(temp_df)
     
         else:
@@ -61,7 +62,6 @@ def odometers(path, filename):
     save_excel(convert_file_path, corected_file, df_corrected)
 
 directory = list_all_files(path)
-
 for i in directory:
     odometers(i[0],i[1])
     print(i[1],' - formating COMPLETE')
