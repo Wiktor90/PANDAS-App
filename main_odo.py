@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from dk_odo import odometers_dk
 from gb_odo import odometers_gb
+from template_odo import template
 
 path_dk = 'C:\\Users\\PL9891\\Desktop\\Fleet\\FUEL_FILES_TO_TRANSFORM\\DK_temp_save\\'
 path_gb = 'C:\\Users\\PL9891\\Desktop\\Fleet\\FUEL_FILES_TO_TRANSFORM\\GB_temp_save\\'
@@ -17,13 +18,12 @@ def list_all_files(path):
             if '.xlsx' in file:
                 tuple_row = (r,file)
                 files.append(tuple_row)
-
     return files
 
 #SAVING NEW EXCLE FILE (corrected)
 def save_excel(path, filename, dataframe):
     excelWriter = pd.ExcelWriter(path + filename)
-    dataframe.to_excel(excelWriter, index=False)
+    dataframe.to_excel(excelWriter, index=False, startrow=6)
     excelWriter.save()
 
 
@@ -41,6 +41,7 @@ if choice == "dk":
         df = odometers_dk(i[0],i[1])
         new_file = 'RTI_'+ i[1] # file name with corrected data frame.
         save_excel(convert_file_path, new_file, df)
+        template(convert_file_path, new_file)
         print('{} - formating COMPLETE'.format(i[1]))
 
 elif choice == "gb":
@@ -49,6 +50,7 @@ elif choice == "gb":
         df = odometers_gb(i[0],i[1])
         new_file = 'RTI_'+ i[1] # file name with corrected data frame.
         save_excel(convert_file_path, new_file, df)
+        template(convert_file_path, new_file)
         print('{} - formating COMPLETE'.format(i[1]))
 else:
     print("Country Code: {} - not found!".format(choice))
