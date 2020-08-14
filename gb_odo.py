@@ -38,5 +38,3 @@ def odometers_gb(path="", filename=""):
 
 if __name__ == '__main__':
     odometers_gb()
-
-
