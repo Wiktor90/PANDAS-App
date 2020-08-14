@@ -10,6 +10,7 @@ def odometers_gb(path="", filename=""):
     df.dropna(inplace = True)
     df.sort_values(by=['VEHICLE_ID_FW','TRANSACTION_DATE_FW','TRANSACTION_TIME_FW'], ascending=[True,False,False],inplace=True)
     df['ODOMETER_FW'] = df['ODOMETER_FW'].apply(lambda x: 0 if x <1000 else x)
+    df.set_index(['VEHICLE_ID_FW'], inplace=True)
 
     #create of unique Vehicle IDs list
     ids = df.index.unique().tolist()
@@ -33,6 +34,9 @@ def odometers_gb(path="", filename=""):
     
         else:
             df_corrected = df_corrected.append(temp_df)
+            
+    df_corrected.reset_index(inplace=True)
+    df_corrected.rename(columns = {'index':'VEHICLE_ID_FW'}, inplace = True)
 
     return df_corrected
 

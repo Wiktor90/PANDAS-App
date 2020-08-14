@@ -54,5 +54,3 @@ elif choice == "gb":
         print('{} - formating COMPLETE'.format(i[1]))
 else:
     print("Country Code: {} - not found!".format(choice))
-
-    
