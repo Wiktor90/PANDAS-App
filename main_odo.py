@@ -50,7 +50,7 @@ elif choice == "gb":
         df = odometers_gb(i[0],i[1])
         new_file = 'RTI_'+ i[1] # file name with corrected data frame.
         save_excel(convert_file_path, new_file, df)
-        template(convert_file_path, new_file)
+        #template(convert_file_path, new_file) # na potrzeby przerobienia danych z WO
         print('{} - formating COMPLETE'.format(i[1]))
 else:
     print("Country Code: {} - not found!".format(choice))

@@ -5,7 +5,8 @@ import numpy as np
 #ODO correction
 def odometers_gb(path="", filename=""):
     #dawnload / cleam / prepare df from dir
-    df = pd.read_excel(os.path.join(path,filename), skiprows=6)
+    #df = pd.read_excel(os.path.join(path,filename), skiprows=6)
+    df = pd.read_excel(os.path.join(path,filename)) # na potrzeby przerobienia danych z WO
     df.loc[:,"ODOMETER_FW"] = df.loc[:,"ODOMETER_FW"].fillna(0).astype('int')
     df.dropna(inplace = True)
     df.sort_values(by=['VEHICLE_ID_FW','TRANSACTION_DATE_FW','TRANSACTION_TIME_FW'], ascending=[True,False,False],inplace=True)
