@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import math
 
 #ODO correction
 def odometers_gb(path="", filename=""):
@@ -27,7 +28,7 @@ def odometers_gb(path="", filename=""):
             odo.sort(reverse=True)
         
             for j in range(len(odo)-1):
-                if odo[j] - odo[j+1] > 9999 and odo[j+1] != 0:
+                if abs(odo[j] - odo[j+1]) > 9999 or odo[j] - odo[j+1] < 0:
                     odo[j+1] = 0
                 
             temp_df.loc[:,"ODOMETER_FW"] = odo #temp_df["ODOMETER_FW"] = odo
